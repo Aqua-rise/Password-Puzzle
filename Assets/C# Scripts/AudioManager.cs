@@ -90,8 +90,9 @@ public class AudioManager : MonoBehaviour
     void LoadPlayerData()
     {
         musicTrack = PlayerPrefs.GetInt("MusicTrack", 0); // Default to 0 if not found
-        musicVolume = PlayerPrefs.GetFloat("Volume", 100f); // Default to 100 if not found
-        volumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 50f); // Default to 100 if not found
+        volumeSlider.value = musicVolume;
+        SetVolume(musicVolume);
         enableMusicTrackButton();
         StartAudio();
         //Debug.Log($"Loaded Data: Music Track int - {musicTrack}, Volume Level - {musicVolume}");
@@ -118,7 +119,8 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.Save();
         StartAudio();
         hasBeenChanged = true;
-        //tooo lazy to fix method if implementation/ Just edit the variable lule
+        SuccessfulSaveText.SetActive(false);
+        //too lazy to fix method if implementation/ Just edit the variable lule
         //ChangesHaveBeenMade();
     }
 
@@ -163,7 +165,7 @@ public class AudioManager : MonoBehaviour
         SuccessfulSaveText.SetActive(false);
     }
 
-    void ResetPlayerData()
+    public void ResetPlayerData()
     {
         PlayerPrefs.DeleteAll(); // Removes all saved preferences
         Debug.Log("All Player Data Reset!");

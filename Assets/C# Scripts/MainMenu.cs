@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,25 +7,44 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-   
-    public void PlayGameEasy()
+   DifficultyManagement difficultyManagement;
+    public void PlayGame()
     {
-        SceneManager.LoadScene("Easy 2.0");
+        SceneManager.LoadScene("Game");
 
     }
-    public void PlayGameMedium()
-    {
-        SceneManager.LoadScene("Medium 2.0");
-        
-    }
-    public void PlayGameHard()
-    {
-        SceneManager.LoadScene("Hard");
-
-    }
+    
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    private void Start()
+    {
+        FindDifficultyManager();
+    }
+
+    void FindDifficultyManager()
+    {
+        //Find difficulty manager
+        GameObject DifficultyManager = GameObject.Find("Difficulty Manager");
+
+        if (difficultyManagement == null)
+        {
+            difficultyManagement = DifficultyManager.GetComponent<DifficultyManagement>();
+        }
+    }
+
+    public void SetDifficulty(string difficulty)
+    {
+        try
+        {
+            difficultyManagement.SetDifficulty(difficulty);
+        }
+        catch
+        {
+            //Debug.Log("Could not find difficulty manager");
+        }
     }
 
 }
